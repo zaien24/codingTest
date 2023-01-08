@@ -50,7 +50,7 @@ public class P1278_미로탐색 {
 						// 이제 갈 수 있는 곳이다. 
 						System.out.println("갈수 있는 곳 : " + x + "," + y);
 						visited[x][y] = true;
-						A[x][y] = A[now[0]][now[1]] + 1; // 핵심
+						A[x][y] = A[now[0]][now[1]] + 1; // 핵심 => 동영상강의 중 2, 3, 4 로 늘려 푸는방식
 						queue.add(new int[] {x, y});
 					}
 				}
