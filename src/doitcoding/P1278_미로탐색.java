@@ -36,12 +36,11 @@ public class P1278_미로탐색 {
 	}
 
 	private static void BFS(int i, int j) {
-		Queue<int[]> queue = new LinkedList<>();
-		int now[] = queue.poll();
-		queue.offer(new int[] {i,j});		
+		Queue<int[]> queue = new LinkedList<>();		
+		queue.offer(new int[] {i,j});
+		visited[i][j] = true;
 		while (!queue.isEmpty()) {
-
-			visited[i][j] = true; 
+			int now[] = queue.poll();			 
 			for (int k = 0; k < 4; k++) { //상하좌우로 탐색
 				int x = now[0] + dx[k];
 				int y = now[1] + dy[k];
