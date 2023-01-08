@@ -44,9 +44,11 @@ public class P1278_미로탐색 {
 			for (int k = 0; k < 4; k++) { //상하좌우로 탐색
 				int x = now[0] + dx[k];
 				int y = now[1] + dy[k];
+				System.out.println("x,y : " + x + ", " + y);
 				if (x >= 0 && y >= 0 &&  x < N && y < M) { // 배열을 넘기면 안되고
 					if (A[x][y] != 0 && !visited[x][y]) { // 0이여서 갈수없거나 기방문한 곳이면 안됨
 						// 이제 갈 수 있는 곳이다. 
+						System.out.println("갈수 있는 곳 : " + x + "," + y);
 						visited[x][y] = true;
 						A[x][y] = A[now[0]][now[1]] + 1; // 핵심
 						queue.add(new int[] {x, y});
