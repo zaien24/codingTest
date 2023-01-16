@@ -12,7 +12,7 @@ public class P15649 {
 	static StringBuilder sb = new StringBuilder();
 	
 	static int N, M;
-	static int[] selected;
+	static int[] selected, used;
 	
 	
 	private static void input() {
@@ -20,6 +20,7 @@ public class P15649 {
 		N = scan.nextInt();
 		M = scan.nextInt();
 		selected = new int[M + 1];
+		used = new int[N + 1];
 	}
 	
 	private static void rec_func(int k) {		
@@ -31,17 +32,16 @@ public class P15649 {
 			sb.append("\n");
 		} else {
 			for (int cand=1;cand<=N;cand++) {
-				boolean isUsed = false;
-				for (int i=1;i<k;i++) {
-					if (cand == selected[i]) {
-						isUsed = true;
-					}
+				if (used[cand] == 1) {
+					continue;
+					
 				}
-				if (!isUsed) {
-					selected[k] = cand;				
-					rec_func(k+1);
-					selected[k] = 0;	
-				}				
+				selected[k] = cand;
+				used[cand] = 1;
+									
+				rec_func(k+1);
+				selected[k] = 0;
+				used[cand] = 0;								
 			}				
 		}
 		//저장
@@ -54,8 +54,6 @@ public class P15649 {
 		rec_func(1);		
 		System.out.println(sb);
 	}
-
-	
 
 	// 입출력 클래스 
 	static class FastReader {
