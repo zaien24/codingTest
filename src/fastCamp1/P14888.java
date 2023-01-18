@@ -49,27 +49,29 @@ public class P14888 {
 	static int[] nums, operators, order;
 	
 	// order[1...N-1] 에 연산자들이 순서대로 저장될 것이다. .
-	private static void rec_func(int k) {
+	private static void rec_func(int k, int value) {
 		if (k == N) {
 			// 완성된 식에 맞게 계산을 해서 정답에 갱신하는 작업
-			int value = calculator();
+			//int value = calculator();
 			max = Math.max(max, value);
 			min = Math.min(min, value);			
 		} else {
 			// k 번째 연산자는 무엇을 선택할 것인가?
 			for (int cand = 1; cand <= 4; cand++) {
 				// 4 가지의 연산자들 중에 뭘 쓸 것인지 선택하고 재귀호출하기
-				System.out.println("k : " + k);
-				System.out.println("cand : " + cand);
-				System.out.println("operators[cand] : " + operators[cand]);
-				if (operators[cand] >= 1) {
-					System.out.println("operators.toString : " + Arrays.toString(operators));
-					System.out.println("order[k] : " + Arrays.toString(order));
+				if (operators[cand] >= 1) {					
 					operators[cand]--;
 					order[k] = cand;
-					System.out.println("operators.toString cand : " + Arrays.toString(operators));
-					System.out.println("order[k] cand : " + Arrays.toString(order));
-					rec_func(k+1);
+					int new_value = value;
+					if (cand == 1)
+						new_value += nums[k + 1];
+					if (cand == 2)
+						new_value -= nums[k + 1];
+					if (cand == 1)
+						new_value *= nums[k + 1];
+					if (cand == 1)
+						new_value /= nums[k + 1];					
+					rec_func(k+1, new_value);
 					operators[cand]++; 
 					order[k] = 0;
 					
