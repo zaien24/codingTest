@@ -27,22 +27,18 @@ public class P14888 {
 		max = Integer.MIN_VALUE;
 		min = Integer.MAX_VALUE;			
 	}
-	
-	private static int calculator() {
-		// nums, order
-		int value = nums[1];
-		for (int i=1;i<=N-1;i++) {
-			// value, order[i], nums[i+1]
-			if (order[i] == 1) // +
-				value = value + nums[i+1];
-			if (order[i] == 2) // -
-				value = value - nums[i+1];
-			if (order[i] == 3) // *
-				value = value * nums[i+1];
-			if (order[i] == 4)  // /
-				value = value / nums[i+1];
-		}
-		return value;
+
+	// 피연산자 2개와 연산자가 주어졌을 때 계산해주는 함수 
+	private static int calculator(int operand1, int operator, int operand2) {
+		// nums, order[i], num[i + 1]		
+		if (operator == 1) // +
+			return operand1 + operand2;
+		else if (operator == 2) // -
+			return operand1 - operand2;
+		else if (operator == 3) // *
+			return operand1 * operand2;
+		else  // /
+			return operand1 / operand2;
 	}
 	
 	static int N, max, min;
@@ -62,19 +58,20 @@ public class P14888 {
 				if (operators[cand] >= 1) {					
 					operators[cand]--;
 					order[k] = cand;
-					int new_value = value;
-					if (cand == 1)
-						new_value += nums[k + 1];
-					if (cand == 2)
-						new_value -= nums[k + 1];
-					if (cand == 1)
-						new_value *= nums[k + 1];
-					if (cand == 1)
-						new_value /= nums[k + 1];					
-					rec_func(k+1, new_value);
+//					int new_value = value;
+					int new_value = calculator(value, cand, nums[k + 1]);
+//					if (cand == 1)
+//						new_value += nums[k + 1];
+//					if (cand == 2)
+//						new_value -= nums[k + 1];
+//					if (cand == 1)
+//						new_value *= nums[k + 1];
+//					if (cand == 1)
+//						new_value /= nums[k + 1];					
+					//rec_func(k+1, new_value);
+					rec_func(k+1, calculator(value, cand, nums[k + 1]));
 					operators[cand]++; 
-					order[k] = 0;
-					
+					order[k] = 0;					
 				}
 			}
 		}
@@ -84,7 +81,8 @@ public class P14888 {
 	public static void main(String[] args) {
 		input();
 		
-		rec_func(1);
+		//rec_func(1);
+		rec_func(1, nums[1]);
 		sb.append(max).append('\n').append(min);
 		System.out.println(sb.toString());
 
