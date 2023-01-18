@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-import fastCamp1.P14888.FastReader;
-
 public class P9663 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
@@ -46,14 +44,24 @@ public class P9663 {
 
 	private static void rec_func(int row) {
     	if (row == N + 1) {
-    		if (validity_check()) {
-    			ans++;
-    		}
+			ans++;
     	} else {
     		for (int c = 1; c <= N; c++) {
-    			col[row] = c;
-    			rec_func(row + 1);
-    			col[row] = 0;
+    			boolean possiable = true;
+    			// valid check (row, c)
+    			for (int i=1;i<=row-1;i++) {
+    				// (i, col[i])
+    				if (attackable(row, c, i, col[i])) {
+    					possiable = false;
+    					break;
+    				}
+    			}
+    			if (possiable) {
+    				col[row] = c;
+        			rec_func(row + 1);
+        			col[row] = 0;
+    			}
+    			
     		}
     	}
 		
