@@ -15,7 +15,7 @@ public class B11726 {
 
     static int N;
     static int[] Dy;
-
+    
     static void input(){
         N = scan.nextInt();
     }
@@ -23,11 +23,13 @@ public class B11726 {
     static void pro() {
         Dy = new int[1005];
         // 초기값 구하기
-        /* TODO */
+        Dy[1] = 1;
+        Dy[2] = 2;
 
         // 점화식을 토대로 Dy 배열 채우기
-        /* TODO */
-
+        for (int i = 3; i <= N; i++){
+            Dy[i] = (Dy[i - 1] + Dy[i - 2]) % 10007;
+        }
         System.out.println(Dy[N]);
     }
 
