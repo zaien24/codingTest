@@ -27,13 +27,17 @@ public class P1182 {
     // value:= k-1 번째 원소까지 골라진 원소들의 합
 
     private static void rec_func(int k, int value) {
+    	System.out.println("k : " + k);
+    	System.out.println("value : " + value);
     	if (k == N + 1) { // 부분 수열을 하나 완성 시킨 상태
     		// value 가 S 랑 같은 지 확인하기
     		if (value == S) ans++; 
     	} else {
     		// k 번째 원소를 포함시킬 지 결정하고 재귀호출하기
     		// Include
-    		rec_func(k + 1, value + nums[k]);
+    		System.out.println("nums[k] : " + nums[k]);
+     		rec_func(k + 1, value + nums[k]);
+     		System.out.println("rec_func(k + 1, value); : " + value);
     		// Not Include
     		rec_func(k + 1, value);
     	}
