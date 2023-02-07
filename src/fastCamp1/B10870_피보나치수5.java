@@ -22,7 +22,11 @@ public class B10870_피보나치수5 {
 
     static void pro() {
         Dy = new int[20 + 1];
-        /* TODO */
+        Dy[0] = 0;
+        Dy[1] = 1;
+        for (int i = 2; i <= Q; i++)
+            Dy[i] = Dy[i - 1] + Dy[i - 2];
+        System.out.println(Dy[Q]);
     }
 
     public static void main(String[] args) {
