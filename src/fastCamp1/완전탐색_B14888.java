@@ -9,83 +9,71 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+import fastCamp1.Basic.FastReader;
+
 public class 완전탐색_B14888 {
 
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
- 
-	private static void input() {	
-		N = scan.nextInt();
-		nums = new int[N + 1];
-		operators = new int[5];
-		order = new int[N + 1];
-		for (int i = 1; i <= N; i++) nums[i] = scan.nextInt();
-		for (int i = 1; i <= 4; i++) operators[i] = scan.nextInt();
+	
+    static int N, ans;
+    static int[] col; // col[i] : i번 행의 퀸은 col[i] 번 열에 놓았다는 기록  
+    
+    static void input() {
+    	N = scan.nextInt();
+    	col = new int[N+1];
+    }
+    
+    private static boolean attackable(int r1, int c1, int r2, int c2) {
+		if (c1 == c2) return true;
 		
-		max = Integer.MIN_VALUE;
-		min = Integer.MAX_VALUE;			
+		if (r1 - c1 == r2 - c2) return true;
+		
+		if (r1 + c1 == r2 + c2) return true; 
+		return false;
 	}
-
-	// 피연산자 2개와 연산자가 주어졌을 때 계산해주는 함수 
-	private static int calculator(int operand1, int operator, int operand2) {
-		// nums, order[i], num[i + 1]		
-		if (operator == 1) // +
-			return operand1 + operand2;
-		else if (operator == 2) // -
-			return operand1 - operand2;
-		else if (operator == 3) // *
-			return operand1 * operand2;
-		else  // /
-			return operand1 / operand2;
-	}
-	
-	static int N, max, min;
-	static int[] nums, operators, order;
-	
-	// order[1...N-1] 에 연산자들이 순서대로 저장될 것이다. .
-	private static void rec_func(int k, int value) {
-		if (k == N) {
-			// 완성된 식에 맞게 계산을 해서 정답에 갱신하는 작업
-			//int value = calculator();
-			max = Math.max(max, value);
-			min = Math.min(min, value);			
-		} else {
-			// k 번째 연산자는 무엇을 선택할 것인가?
-			for (int cand = 1; cand <= 4; cand++) {
-				// 4 가지의 연산자들 중에 뭘 쓸 것인지 선택하고 재귀호출하기
-				if (operators[cand] >= 1) {					
-					operators[cand]--;
-					order[k] = cand;
-//					int new_value = value;
-					int new_value = calculator(value, cand, nums[k + 1]);
-//					if (cand == 1)
-//						new_value += nums[k + 1];
-//					if (cand == 2)
-//						new_value -= nums[k + 1];
-//					if (cand == 1)
-//						new_value *= nums[k + 1];
-//					if (cand == 1)
-//						new_value /= nums[k + 1];					
-					//rec_func(k+1, new_value);
-					rec_func(k+1, calculator(value, cand, nums[k + 1]));
-					operators[cand]++; 
-					order[k] = 0;					
+    
+    private static boolean validity_check() {
+		for (int i = 1; i <= N; i++) {
+			// (i, col[i])
+			for (int j = 1; j < i; ) {
+				// (j, col[j])
+				if (attackable(i, col[i], j, col[j])) {
+					return false; 
 				}
 			}
+			
 		}
-		
+		return true;
 	}
-	
+    
+	// row 번 ~ N 번 행에 대해서 가능한 퀸을 놓는 경우의 수 구하기 
+    static void rec_func(int row) {
+    	if (row == N+1) { // 각 행마다 하나씩 잘 놓았다 
+    		if (validity_check()) { // 서로 공격하는 퀸들이 없는 경우 
+    			ans++;
+    		}
+    		
+    	} else {
+    		for (int c = 1; c <= N; c++) {
+    			col[row] = c;  // ????? 
+    			rec_func(row + 1);
+    			col[row] = 0;
+    		}
+    		
+    	}
+    }
+    
+    
+
 	public static void main(String[] args) {
-		input();
-		
-		//rec_func(1);
-		rec_func(1, nums[1]);
-		sb.append(max).append('\n').append(min);
-		System.out.println(sb.toString());
-
-	}
-
+    	input();
+    	// 1 번 째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘 
+    	rec_func(1);
+    	System.out.println(ans);
+    	    	
+    }
+   
 	static class FastReader {
         BufferedReader br;
         StringTokenizer st;
