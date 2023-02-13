@@ -1,89 +1,87 @@
 package fastCamp1;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-import fastCamp1.Basic.FastReader;
-
 public class 완전탐색_B14888 {
-
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int N, ans;
-    static int[] col; // col[i] : i번 행의 퀸은 col[i] 번 열에 놓았다는 기록  
+    static int N, max, min;
+    static int[] nums, operators, order;
     
     static void input() {
     	N = scan.nextInt();
-    	col = new int[N+1];
+    	nums = new int[N+1];
+    	operators = new int[5];
+    	order = new int[N+1];
+    	
+    	for (int i = 1; i <= N; i++) nums[i] = scan.nextInt();
+    	for (int i = 1; i <= 4; i++) operators[i] = scan.nextInt();
+    	
+    	max = Integer.MIN_VALUE;
+    	min = Integer.MAX_VALUE;
     }
     
-    private static boolean attackable(int r1, int c1, int r2, int c2) {
-		if (c1 == c2) return true;
-		
-		if (r1 - c1 == r2 - c2) return true;
-		
-		if (r1 + c1 == r2 + c2) return true; 
-		return false;
-	}
+    // 완성된 식에 맞게 계산을 해서 정답에 갱신하는 작업
+    static int calculator() {
+    	// nums, order
+    	int value = nums[1]; // 숫자 저장이 index 1부터 되어서 그렇다.
+    	for (int i = 1; i <= N-1; i++) {
+    		// value, order[i], num[i+1]
+    		if (order[i] == 1)  // +
+    			value = value + nums[i+1];
+    		if (order[i] == 2)  // -
+    			value = value - nums[i+1];
+    		if (order[i] == 3)  // *
+    			value = value * nums[i+1];
+    		if (order[i] == 4)  // /
+    			value = value / nums[i+1];    		
+    	}
+    	return value;
+    }
     
-    private static boolean validity_check() {
-		for (int i = 1; i <= N; i++) {
-			// (i, col[i])
-			for (int j = 1; j < i; ) {
-				// (j, col[j])
-				if (attackable(i, col[i], j, col[j])) {
-					return false; 
+    
+    // order[1....N-1] 에
+    // 연산자들이 
+    // 순서대로 저장될 것이다.
+    private static void rec_func(int k) {
+		if (k == N) {
+			// 완성된 식에 맞게 계산을 해서 정답에 갱신하는 작업
+			int value = calculator();
+			max = Math.max(max, value);
+			min = Math.min(min, value);
+		} else {
+			// k 번째 연산자는 무엇을 선택할 것인가?
+			for (int cand = 1; cand <= 4; cand++) {
+				if (operators[cand] >= 1) {
+					operators[cand]--;
+					order[k] = cand;
+					rec_func(k+1);
+					operators[cand]++;
+					order[k] = 0;
 				}
 			}
-			
 		}
-		return true;
-	}
+	} 
     
-	// row 번 ~ N 번 행에 대해서 가능한 퀸을 놓는 경우의 수 구하기 
-    static void rec_func(int row) {
-    	if (row == N+1) { // 각 행마다 하나씩 잘 놓았다 
-    		if (validity_check()) { // 서로 공격하는 퀸들이 없는 경우 
-    			ans++;
-    		}
-    		
-    	} else {
-    		for (int c = 1; c <= N; c++) {
-    			boolean possible = true;
-    			// valid check (row, c)
-    			for (int i = 1; i <= row-1; i++) {
-    				// (i, col[i])
-    				if (attackable(row, c, i, col[i])) {
-    					possible = false;
-    					break;
-    				}
-    			}
-    			
-    			if (possible) {
-    				col[row] = c;  // ????? 
-        			rec_func(row + 1);
-        			col[row] = 0;
-    			}
-    		}
-    		
-    	}
-    }
-
-	public static void main(String[] args) {
+    public static void main(String[] args) {
     	input();
-    	// 1 번 째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘 
+    	// 1번째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘
     	rec_func(1);
-    	System.out.println(ans);
+    	sb.append(max).append('\n').append(min);
+    	System.out.println(sb.toString());
     	    	
     }
    
+	
+
 	static class FastReader {
         BufferedReader br;
         StringTokenizer st;
