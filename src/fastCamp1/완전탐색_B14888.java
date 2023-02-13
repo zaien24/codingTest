@@ -56,15 +56,25 @@ public class 완전탐색_B14888 {
     		
     	} else {
     		for (int c = 1; c <= N; c++) {
-    			col[row] = c;  // ????? 
-    			rec_func(row + 1);
-    			col[row] = 0;
+    			boolean possible = true;
+    			// valid check (row, c)
+    			for (int i = 1; i <= row-1; i++) {
+    				// (i, col[i])
+    				if (attackable(row, c, i, col[i])) {
+    					possible = false;
+    					break;
+    				}
+    			}
+    			
+    			if (possible) {
+    				col[row] = c;  // ????? 
+        			rec_func(row + 1);
+        			col[row] = 0;
+    			}
     		}
     		
     	}
     }
-    
-    
 
 	public static void main(String[] args) {
     	input();
