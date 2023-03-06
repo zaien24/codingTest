@@ -9,82 +9,48 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1260_DFS와BFS_인접행렬 {
+public class 투포인터_B2470_두용액 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int N, M, V;
-    static int[][] adj;
-    static boolean[] visit;
     
+    static int N;
+    static int[] A;
+   
     static void input() {
     	N = scan.nextInt();
-    	M = scan.nextInt();
-    	V = scan.nextInt();
-    	
-    	adj = new int[N+1][N+1];
-    	for (int i = 0; i < M; i++) {
-    		int x = scan.nextInt();
-    		int y = scan.nextInt();
-    		adj[x][y] = adj[y][x] = 1;	
-    	}
-    }
-    
-    static void dfs(int x) {
-    	visit[x] = true;
-    	sb.append(x).append(' ');
-    	
-    	for (int y = 1; y <= N; y++) {
-    		if (adj[x][y] == 0) {
-    			continue;
-    		}
-    		
-    		if (visit[y]) {
-    			continue;
-    		}
-    		dfs(y);
-    	}
-    }
-    
-    static void bfs(int start) {
-    	Queue<Integer> que = new LinkedList<>();
-    	
-    	que.add(start);
-    	visit[start] = true;
-    	
-    	while (!que.isEmpty()) {
-    		int x = que.poll();
-    		
-    		sb.append(x).append(' ');
-    		for (int y = 1; y <= N; y++) {
-    			if (adj[x][y] == 0) continue;
-    			if (visit[y]) continue;
-    			
-    			que.add(y);
-    			visit[y] = true;
-    		}
+    	A = new int[N+1];
+    	for (int i = 1; i <= N; i++) {
+    		A[i] = scan.nextInt();
     	}
     }
     
     
-    private static void pro() {
-		visit = new boolean[N+1];
-		dfs(V);
-		sb.append('\n');
-		for (int i = 1; i <= N; i++) {
-			visit[i] = false; 
-		}
-		bfs(V);
-		System.out.println(sb);
-		
-	}
+    static void pro() {
+    	Arrays.sort(A, 1, N+1);
+    	
+    	int best_sum = Integer.MAX_VALUE;
+    	int v1 = 0, v2 = 0,  L = 1, R = N;
+    	
+    	while (L < R) {
+    		if (best_sum > Math.abs(A[L] + A[R])) {
+    			best_sum = Math.abs(A[L] + A[R]);
+    			v1 = A[L];
+    			v2 = A[R];
+    		}
+    		if (A[L] + A[R] > 0) R--;
+    		else L++;
+    	}
+    	sb.append(V1).append(' ').append(v2);
+    	System.out.println(sb);
+    }
     
     public static void main(String[] args) {
     	input();
     	pro();
     	    	
     }
-
+   
 	static class FastReader {
         BufferedReader br;
         StringTokenizer st;

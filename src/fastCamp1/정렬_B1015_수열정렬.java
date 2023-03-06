@@ -5,49 +5,56 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 정렬_B1015_수열정렬 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
-    
+
+    static class Elem implements Comparable<Elem> {
+
+        public int num, idx;
+
+        @Override
+        public int compareTo(Elem other) {
+            return num - other.num;
+        }
+    }
+
+    static int N;
+    static int[] P;
+    static Elem[] B;
+
     static void input() {
-    	Q = scan.nextInt();
+        N = scan.nextInt();
+        B = new Elem[N];
+        P = new int[N];
+        for (int i = 0; i < N; i++) {
+            B[i] = new Elem();
+            B[i].num = scan.nextInt();
+            B[i].idx = i;
+        }
     }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
-    	}
-    }
-    
+
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
+        Arrays.sort(B);
+        for (int i = 0; i < N; i++) {
+            P[B[i].idx] = i;
+        }
+        for (int i = 0; i < N; i++) {
+            sb.append(P[i]).append(' ');
+        }
+        System.out.println(sb.toString());
     }
-    
+
     public static void main(String[] args) {
-    	input();
-    	pro();
+        input();
+        pro();
     }
-   
-	static class FastReader {
+
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 

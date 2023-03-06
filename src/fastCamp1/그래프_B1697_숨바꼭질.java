@@ -9,42 +9,60 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 그래프_B1697_숨바꼭질 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int N, K;
+    static int[] dist;
+    static boolean[] visit;
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	K = scan.nextInt();
+    	visit = new boolean[100005];
+    	dist = new int[100005];
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
+    static void bfs() {
+    	Queue<Integer> Q = new LinkedList<>();
+    	Q.add(N);
+    	visit[N] = true;
+    	dist[N] = 0;
     	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	while (!Q.isEmpty()) {
+    		int x = Q.poll();
+    		if (x - 1 >= 0 && !visit[x-1]) {
+    			visit[x-1] = true;
+    			dist[x-1] = dist[x] + 1;
+    			Q.add(x-1);
+    					
+    		}
+    		
+    		if (x+1 <= 100000 && !visit[x+1]) {
+    			visit[x+1] = true;
+    			dist[x+1] = dist[x] + 1;
+    			Q.add(x+1);
+    		}
+    		
+    		if (x*2  <= 100000 && !visit[x*2]) {
+    			visit[x*2] = true;
+    			dist[x*2] = dist[x] + 1;
+    			Q.add(x*2);
+    		}
     	}
+    	
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
+    	bfs();
+    	System.out.println(dist[K]);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

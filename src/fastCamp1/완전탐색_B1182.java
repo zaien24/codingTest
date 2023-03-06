@@ -1,52 +1,57 @@
 package fastCamp1;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+import fastCamp1.완전탐색_B9663.FastReader;
+
+public class 완전탐색_B1182 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
+
     
+    static int N, S, ans;
+    static int[] nums;
+       
     static void input() {
-    	Q = scan.nextInt();
+    	 N = scan.nextInt();
+         S = scan.nextInt();
+         nums = new int[N + 1];
+         for (int i = 1; i <= N; i++) nums[i] = scan.nextInt();
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    
+    // value:= k-1 번째 원소까지 골라진 원소들의 합
+    private static void rec_func(int k, int value) {
+    	if (k == N+1) { // 부분 수열을 하나 완성 시킨 상태
+    		// value 가 S랑 같은 지 확인하기 
+    		if (value == S ) ans++;
+    	}  else {
+    		// k 번재 원소를 포함시킬 결정하고 재귀호출해주기
+    		// Include
+    		rec_func(k + 1, value + nums[k]);
+    		// Not Include
+    		rec_func(k + 1, value);
+    		// Not issue
     	}
     }
     
-    static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
-    }
-    
-    public static void main(String[] args) {
-    	input();
-    	pro();
-    }
-   
+	public static void main(String[] args) {
+		input();
+		
+		// 1번째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘 
+		rec_func(1, 0);
+		
+		// ans가 정말 "정말 앝격값"
+	
+		System.out.println();
+	}
+
 	static class FastReader {
         BufferedReader br;
         StringTokenizer st;

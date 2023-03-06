@@ -1,52 +1,84 @@
 package fastCamp1;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 완전탐색_B9663 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
-    
+
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	col = new int[N + 1];
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    static int N, ans;
+    static int[] col;
+    
+    private static boolean attackable(int r1, int c1, int r2, int c2) {
+    	if (c1 == c2) return true;
+    	if (r1 - c1 == r2 - c2) return true;
+    	if (r1 + c1 == r2 + c2) return true;
+		return false;
+	}
+    
+    private static boolean validity_check() {
+    	for (int i=1;i<=N;i++) {
+    		// i, col[i]
+    		for (int j=1;j<i;j++) {
+    			// j, col[j]
+    			if (attackable(i, col[i], j, col[j])) {
+    				return false;
+    			}
+    		}
     	}
-    }
+		return true;
+	}
     
-    static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    
+
+	private static void rec_func(int row) {
+    	if (row == N + 1) {
+			ans++;
+    	} else {
+    		for (int c = 1; c <= N; c++) {
+    			boolean possiable = true;
+    			// valid check (row, c)
+    			for (int i=1;i<=row-1;i++) {
+    				// (i, col[i])
+    				if (attackable(row, c, i, col[i])) {
+    					possiable = false;
+    					break;
+    				}
+    			}
+    			if (possiable) {
+    				col[row] = c;
+        			rec_func(row + 1);
+        			col[row] = 0;
+    			}
+    			
+    		}
     	}
-    	
-    	System.out.println(sb);
-    }
+		
+	}
     
-    public static void main(String[] args) {
-    	input();
-    	pro();
-    }
-   
+	
+
+	public static void main(String[] args) {
+		input();
+		
+		// 1번째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘 
+		rec_func(1);
+		System.out.println(ans);
+	}
+	
+	
+
 	static class FastReader {
         BufferedReader br;
         StringTokenizer st;

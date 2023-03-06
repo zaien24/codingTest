@@ -5,46 +5,76 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 그래프_B2178_미로탐색 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
+    
+    static int N, M;
+    static String[] a;
+    static int[][] dist;
+    static boolean[][] visit;
+    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    static ArrayList<Integer> group;
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	M = scan.nextInt();
+    	a = new String[N];
+    	for (int  i = 0; i < N; i++) {
+    		a[i] = scan.nextLine();
+    	}
+    	visit = new boolean[N][M];
+    	dist = new int[N][M];
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    static void bfs(int x, int y) {
+    	for (int i = 0; i < N; i++) {
+    		for (int j = 0; j < M; j++) {
+    			dist[i][j] = -1;
+    		}
     	}
+    	
+    	Queue<Integer> Q = new LinkedList<>();
+    	Q.add(e);
+    	Q.add(y);
+    	dist[x][y] = 1;
+    	visit[x][y] = true; 
+    	
+    	while (!Q.isEmpty()) {
+    		x = Q.poll();
+    		y = Q.poll();
+    		for (int k = 0; k < 4; k++) {
+    			int nx = x + dir[k][0];
+    			int ny = y + dir[k][1];
+    			if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+    			if (a[nx].charAt(ny) == '0') continue;
+    			if (visit[nx][ny]) continue;
+    			
+    			Q.add(nx);
+    			Q.add(ny);
+    			visit[nx][ny] = true;
+    			dist[nx][ny] = dist[x][y] + 1;
+    			
+    		}
+    		
+    	}
+    		
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
+    	bfs(0, 0);
+    	System.out.println(dist[N-1][M-1]);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

@@ -9,42 +9,48 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 투포인터_B1806_부분합 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int n, S;
+    static int[] a;
+    
     
     static void input() {
-    	Q = scan.nextInt();
-    }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	n = scan.nextInt();
+    	S = scan.nextInt();
+    	a = new int[n+1];
+    	for (int i = 1; i <= n; i++) {
+    		a[i] = scan.nextInt();
     	}
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	int R = 0, sum = 0, ans = n+1;
+    	for (int L = 1; L <= n; L++) {
+    		// L - 1을 구간에서 제외하기 
+    		sum -= a[L-1];
+    		
+    		// R을 옮길 수 있을 때 까지 옮기기
+    		while (R+1 <= n && sum < S) 
+    			sum += a[++R];
+    		
+    		//[L...R] 의 합, 즉 sum이 조건을 만족하면 정답 갱신하기 
+    		if (sum >= S) 
+    			ans = Math.min(ans,  R-L+1);
     	}
     	
-    	System.out.println(sb);
+    	if (ans == n + 1) {
+    		ans = 0;
+    	}
+    	System.out.println(ans);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

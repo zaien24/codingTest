@@ -5,46 +5,40 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 완전탐색_B15651_N과M_3 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
+
+    static int N, M;
+    static int[] selected;
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	M = scan.nextInt();
+    	selected = new int[M+1];
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    static void rec_func(int k) {
+    	if (k == M + 1) {
+    		for ( int i = 1; i <= M; i++ ) sb.append(selected[i]).append(' ');
+    		sb.append('\n');
+    	} else {
+    		for ( int cand = 1; cand <= N; cand++) {
+    			selected[k] = cand;
+    			
+    			rec_func( k + 1);
+    			selected[k] = 0;
+    		}
     	}
-    }
-    
-    static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
     }
     
     public static void main(String[] args) {
     	input();
-    	pro();
+    	rec_func(1);
+    	System.out.println(sb.toString());
+    	
     }
    
 	static class FastReader {

@@ -9,42 +9,79 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 그래프_B14502_연구소 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    
+    static int N, M, B, ans;
+    static int[][] A, blank;
+    static boolean[][] visit;
+    static int[][] dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	M = scan.nextInt();
+    	A = new int[N + 1][M+1];
+    	blank = new int[N*M+1][2];
+    	visit = new boolean[N+1][M+1];
+    	for (int i = 1; i <= N; i++) {
+    		for (int j = 1; j <= M; j++) {
+    			A[i][j] = scan.nextInt();
+    		}
+    	}
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
+    static void bfs() {
+    	Queue<Integer> Q = new LinkedList<>();
     	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	for (int i = 1; i <= N; i++) {
+    		for (int j = 1; j <= M; j++) {
+    			visit[i][j] = false;
+    			if (A[i][j] == 2) {
+    				Q.add(i);
+    				Q.add(j);
+    				visit[i][j] = true;
+    			}
+    		}
     	}
+    }
+    
+    
+    static void dfs(int idx, int selected_cnt) {
+    	if (selected_cnt == 3) {
+    		bfs();
+    		return;
+    	}
+    	if (idx > B) return;
+    	
+    	A[blank[idx][0]][blank[idx][1]] = 1;
+    	dfs(idx+1, selected_cnt+1);
+    	
+    	A[blank[idx][0]][blank[idx][1]] = 0;
+        dfs(idx + 1, selected_cnt);
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	for (int i = 1; i <= N; i++) {
+    		for (int j = 1; j <= M; j++) {
+    			if (A[i][j] == 0) {
+    				B++;
+    				blank[B][0] = i;
+    				blank[B][1] = j;
+    			}
+    		}
     	}
     	
-    	System.out.println(sb);
+    	dfs(1, 0);
+    	System.out.println(ans);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

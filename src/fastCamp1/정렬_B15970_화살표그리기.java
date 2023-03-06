@@ -5,46 +5,67 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 정렬_B15970_화살표그리기 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    
+    static int N;
+    static ArrayList<Integer>[] a;
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	a = new ArrayList[N+1];
+    	for (int color = 1; color <= N; color++) {
+    		a[color] = new ArrayList<Integer>();
+    	}
+    	
+    	for (int i = 1; i <= N; i++) {
+    		int coord, color;
+    		coord = scan.nextInt();
+    		color = scan.nextInt();
+    		a[color].add(coord);
+    	}
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    static int toLeft(int color, int idx) {
+    	if (idx == 0) {
+    		return Integer.MAX_VALUE;
     	}
+    	return a[color].get(idx) - a[color].get(idx - 1);
+    }
+    
+    static int toRight(int color, int idx) {
+    	if (idx + 1 == a[color].size()) {
+    		return Integer.MAX_VALUE;
+    	}
+    	return a[color].get(idx+1) - a[color].get(idx);
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	for (int color = 1; color <= N; color++) {
+    		Collections.sort(a[color]);
     	}
     	
-    	System.out.println(sb);
+    	int ans = 0;
+    	for (int color = 1; color <= N; color++) {
+    		for (int i = 0; i < a[color].size(); i++) {
+    			int left_distance = toLeft(color, i);
+    			int right_distance = toRight(color, i);
+    			ans += Math.min(left_distance, right_distance);
+    		}
+    	}
+    	System.out.println(ans);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

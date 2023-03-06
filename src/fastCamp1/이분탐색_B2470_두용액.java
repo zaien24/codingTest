@@ -5,46 +5,61 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 이분탐색_B2470_두용액 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int N;
+    static int[] A;
+    
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	A = new int[N+1];
+    	for (int i = 1; i <= N; i++) {
+    		A[i] = scan.nextInt();
+    	}
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
+    static int lower_bound(int[] A, int L, int R, int X) {
+    	// A[L...R] 에서 X 이상의 수 중 제일 왼쪽 인덱스를 return 하는 함수 
+    	// 그런게 업다면 R+1을 return한다.
     	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	int res = R + 1; // 만약 A[L....R] 중
+    	while (L <= R) {
+    		int mid = (L+R) / 2;
+    		if (A[mid] >= X) {
+    			res = mid;
+    			R = mid - 1;
+    		} else {
+    			L = mid + 1;
+    		}
     	}
+    	return res;
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
+    	Arrays.sort(A, 1, N+1);
     	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	int best_sum = Integer.MAX_VALUE;
+    	int v1 = 0, v2 = 0;
+    	for (int left = 1; left <= N-1; left++) {
+    		int candidate = lower_bound(A, left+1, N, -A[left]);
     	}
-    	
-    	System.out.println(sb);
-    }
+    	if (left < candidate -1 && Math.abs(A[left] + A[candidate -1] < best_sum) {
+    		best_sum = Math.abs(A[left] + A[candidate - 1]);
+    		v1 = A[left];
+    		v2 = A[candidate-1];
+    	}
+   
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

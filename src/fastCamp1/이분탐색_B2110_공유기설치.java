@@ -5,46 +5,65 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 이분탐색_B2110_공유기설치 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int N, C;
+    static int[] A;
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	C = scan.nextInt();
+    	A = new int[N+1];
+    	for (int i = 1; i <= N; i++) {
+    		A[i] = scan.nextInt();
+    	}
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
+    static boolean  determination(int D) {
+    	// D 만큼의 거리 차이를 둔다면 C 개 만큼의 공유기를 설치할 수 있는가?
     	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	// 제일 왼쪽 집부터 가능한 많이 설치해보자!
+    	// D 만큼의 거리를 두면서 최대로 설치한 개수와 C 를 비교하자
+    	int cnt = 1, last = A[i];
+    
+    	for (int i = 2; i <= N; i++) {
+    		if (A[i] - last < D) {
+    			continue;
+    		}
+    		last = A[i];
+    		cnt++;
     	}
+    	return cnt >= C;
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
+    	// determination 을 빠르게 하기 위해서 정렬해주자. 
+    	Arrays.sort(A, 1, N+1);
     	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	int L =1, R = 1000000000,ans = 0;
+    	while (L <= R) {
+    		int mid = (L+R) / 2;
+    		if (determination(mid)) {
+    			ans = mid;
+    			L = mid + 1;
+    		} else {
+    			R = mid - 1;
+    		}
     	}
-    	
-    	System.out.println(sb);
+    	System.out.println(ans);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

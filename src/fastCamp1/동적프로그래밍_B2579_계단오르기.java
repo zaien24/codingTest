@@ -9,45 +9,48 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 동적프로그래밍_B2579_계단오르기 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
+
+    static int N;
+    static int[][] Dy;
+    static int[] A;
     
-    static void input() {
-    	Q = scan.nextInt();
+    static void input(){
+        N = scan.nextInt();
+        A = new int[N + 1];
+        Dy = new int[N + 1][2];
+        for (int i = 1; i <= N; i++){
+            A[i] = scan.nextInt();
+        }
     }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
-    	}
-    }
-    
+
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
+        // 초기값 구하기
+    	Dy[1][0] = 0;
+        Dy[1][1] = A[1];
+        
+        if (N >= 2){
+            Dy[2][0] = A[2];
+            Dy[2][1] = A[1] + A[2];
+        }
+
+        // 점화식을 토대로 Dy 배열 채우기
+        for (int i = 3; i <= N; i++){
+            Dy[i][0] = Math.max(Dy[i - 2][0] + A[i], Dy[i - 2][1] + A[i]);
+            Dy[i][1] = Dy[i - 1][0] + A[i];
+        }
+        System.out.println(Math.max(Dy[N][0], Dy[N][1]));
     }
-    
+
     public static void main(String[] args) {
-    	input();
-    	pro();
+        input();
+        pro();
     }
-   
-	static class FastReader {
+
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 

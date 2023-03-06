@@ -51,7 +51,7 @@ public class 그래프_B2667_단지번호붙이기 {
     	group = new ArrayList<>();
     	for (int i = 0; i < N; i++) {
     		for (int j = 0; j < N; j++) {
-    			int (!visit[i][j] && a[i].charAt(j) == '1') { // 아직 방문을 하지 않고, 1이 써져 있는 것을 만난다면,
+    			if (!visit[i][j] && a[i].charAt(j) == '1') { // 아직 방문을 하지 않고, 1이 써져 있는 것을 만난다면,
     				// 갈 수 있는 칸인데, 이미 방문처리 된, 즉 새롭게 만난 단지의 경우 
     				group_cnt = 0; // 집의 개수
     				dfs(i, j);

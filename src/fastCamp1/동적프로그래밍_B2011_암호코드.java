@@ -9,45 +9,56 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 동적프로그래밍_B2011_암호코드 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
-    
+
+    static String str;
+    static int[] Dy;
+    static int N, MOD = 1000000;
+
     static void input() {
-    	Q = scan.nextInt();
+        str = scan.next();
+        N = str.length();
     }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
-    	}
+
+    static boolean check(char A, char B) {  // 'AB' 라는 두 자리 숫자가 하나의 수로 해독이 가능한가?
+        if (A == '0') return false;
+        if (A == '1') return true;
+        if (A >= '3') return false;
+        return B <= '6';
     }
-    
+
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
-    	System.out.println(sb);
+        Dy = new int[N];
+
+        // 초기값 구하기
+        if (str.charAt(0) != '0') Dy[0] = 1;
+
+        // 점화식을 토대로 Dy 배열 채우기
+        for (int i = 1; i < N; i++) {
+            // i 번 숫자를 단독으로 해석 가능할 때
+            if (str.charAt(i) != '0') Dy[i] = Dy[i - 1];
+
+            // i - 1번과 i 번 숫자를 하나의 문자로 해석 가능할 때
+            if (check(str.charAt(i - 1), str.charAt(i))) {
+                if (i >= 2) Dy[i] += Dy[i - 2];
+                else Dy[i] += 1;
+                Dy[i] %= MOD;
+            }
+        }
+
+        // Dy배열로 정답 계산하기
+        System.out.println(Dy[N - 1]);
     }
-    
+
     public static void main(String[] args) {
-    	input();
-    	pro();
+        input();
+        pro();
     }
-   
-	static class FastReader {
+
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 

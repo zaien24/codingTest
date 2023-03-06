@@ -5,46 +5,49 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 정렬_B11652_카드 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int N;
+    static long[] a;
     
     static void input() {
-    	Q = scan.nextInt();
-    }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	N = scan.nextInt();
+    	a = new long[N+1];
+    	for (int i = 1; i <= N; i++) {
+    		a[i] = scan.nextLong();
     	}
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
+    	Arrays.sort(a, 1, N+1);
+    	long mode = a[1];
+    	int modeCnt = 1;
+    	int curCnt = 1;
     	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	for (int i = 2; i <= N; i++) {
+    		if (a[i] == a[i-1]) {
+    			curCnt++;
+    		} else {
+    			curCnt = 1;
+    		}
+    		
+    		if (curCnt > modeCnt) {
+    			modeCnt = curCnt;
+    			mode = a[i];
+    		}
     	}
-    	
-    	System.out.println(sb);
+    	System.out.println(mode);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {

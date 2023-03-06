@@ -5,49 +5,83 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 그래프_B1260_DFS와BFS2_인접리스트 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
+
+    static int N, M, V;
+    static ArrayList<Integer>[] adj;
+    static boolean[] visit;
     
     static void input() {
-    	Q = scan.nextInt();
+    	N = scan.nextInt();
+    	M = scan.nextInt();
+    	V = scan.nextInt();
+    	adj = new ArrayList[N+1];
+    	for (int i = 1; i <= N; i++)
+    		adj[i] = new ArrayList<>();
+    	for (int i = 0; i < M; i++) {
+    		int x = scan.nextInt();
+    		int y = scan.nextInt();
+    		adj[x].add(y);
+    		adj[y].add(x);
+    	}
+    	for (int i = 1; i <= N; i++)
+    		Collections.sort(adj[i]);
     }
     
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
+    static void dfs(int x) {
+    	visit[x] = true;
+    	sb.append(x).append(' ');
     	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	for ( int y : adj[x]) {
+    		if (visit[y]) continue;
+    		
+    		dfs(y);
+    	}
+    }
+    
+    static void bfs(int start) {
+    	Queue<Integer> que = new LinkedList<>();
+    	
+    	que.add(start);
+    	visit[start] = true;
+    	
+    	while (!que.isEmpty()) {
+    		int x = que.poll();
+    		
+    		sb.append(x).append(' ');
+    		for (int y : adj[x]) {
+    			if (visit[y]) continue;
+    			
+    			que.add(y);
+    			visit[y] = true;
+    		}
     	}
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
-    	}
-    	
+    	visit = new boolean[N+1];
+    	dfs(V);
+    	sb.append('\n');
+    	for (int i = 1; i <= N; i++) visit[i] = false;
+    	bfs(V);
     	System.out.println(sb);
     }
-    
+
     public static void main(String[] args) {
-    	input();
-    	pro();
+        input();
+        pro();
     }
-   
-	static class FastReader {
+
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 

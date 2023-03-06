@@ -9,45 +9,36 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 동적프로그래밍_B11726_2N타일링 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
-    static int Q;
-    static long[][] Dy;
+
+    static int N;
+    static int[] Dy;
     
     static void input() {
-    	Q = scan.nextInt();
-    }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
-    	}
+    	N = scan.nextInt();
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
+    	Dy = new int[1005];
     	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	Dy[1] = 1;
+    	Dy[2] = 2;
+    	
+    	for (int i = 3; i <= N; i++) {
+    		Dy[i] = (Dy[i-1] + Dy[i-2]) % 10007;
     	}
-    	
-    	System.out.println(sb);
+    	System.out.println(Dy[N]);
     }
-    
+
     public static void main(String[] args) {
-    	input();
-    	pro();
+        input();
+        pro();
     }
-   
-	static class FastReader {
+
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 

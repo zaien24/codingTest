@@ -5,46 +5,55 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 정렬_B10825_국영수 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int N;
+    static Elem[] a;
     
     static void input() {
-    	Q = scan.nextInt();
-    }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
+    	N = scan.nextInt();
+    	a = new Elem[N];
     	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	for (int i = 0; i < N; i++) {
+    		a[i] = new Elem();
+    		a[i].name = scan.next();
+    		a[i].korean = scan.nextInt();
+    		a[i].english = scan.nextInt();
+    		a[i].math = scan.nextInt();
     	}
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	Arrays.sort(a);
+    	for (int i = 0; i < N; i++) {
+    		sb.append(a[i].name).append('\n');
     	}
-    	
-    	System.out.println(sb);
+    	System.out.println(sb.toString());
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
+    }
+    
+    static class Elem implements Comparable<Elem> {
+    	
+    	public String name;
+    	public int korean, english, math;
+    	
+		@Override
+		public int compareTo(Elem other) {
+			if (korean != other.korean) return other.korean - korean;
+			if (english != other.english) return english - other.english;
+			if (math != other.math) return other.math - math;
+			return name.compareTo(other.name);
+		} 
     }
    
 	static class FastReader {

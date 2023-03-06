@@ -5,46 +5,69 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class 동적프로그래밍_B1003 {
+public class 그래프_B2606_바이러스 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 	
-    static int Q;
-    static long[][] Dy;
+    static int N, M;
+    static ArrayList<Integer>[] adj;
+    static boolean[] visit;
     
     static void input() {
-    	Q = scan.nextInt();
-    }
-    
-    static void preprocess() {
-    	Dy[0][0] = 1;
-    	Dy[1][1] = 1;
-    	
-    	for (int i = 2; i <= 41; i++) {
-    		Dy[i][0] = Dy[i-2][0] + Dy[i-1][0];
-    		Dy[i][1] = Dy[i-2][1] + Dy[i-1][1];
+    	N = scan.nextInt();
+    	M = scan.nextInt();
+    	adj = new ArrayList[N + 1];
+    	for (int i = 1; i <= N; i++) {
+    		adj[i] = new ArrayList<>();
     	}
+    	for (int i = 0; i < M; i++) {
+    		int x = scan.nextInt();
+    		int y = scan.nextInt();
+    		adj[x].add(y);
+    		adj[y].add(x);
+    		
+    	}
+    }
+    static void bfs(int start) {
+    	Queue<Integer> que = new LinkedList<>();
+    	
+    	que.add(start);
+    	visit[start] = true;
+    	
+    	while (!que.isEmpty()) {
+    		int x = que.poll();
+    		
+    		for (int y: adj[x]) {
+    			if (visit[y]) continue;
+    			
+    			que.add(y);
+    			visit[y] = true;
+    		}
+    	}
+    	
     }
     
     static void pro() {
-    	Dy = new long[41][2];
-    	preprocess();
-    	
-    	for (int i = 1; i <= Q; i++) {
-    		int q = scan.nextInt();
-    		sb.append(Dy[q][0]).append(' ').append(Dy[q][1]);
+    	visit = new boolean[N + 1];
+    	bfs(1);
+    	int ans = 0;
+    	for (int i = 2; i <= N; i++) {
+    		if (visit[i]) {
+    			ans++;
+    		}
     	}
-    	
-    	System.out.println(sb);
+    	System.out.println(ans);
     }
     
     public static void main(String[] args) {
     	input();
     	pro();
+    	    	
     }
    
 	static class FastReader {
