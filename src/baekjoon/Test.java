@@ -4,8 +4,6 @@ import java.util.*;
 
 public class Test {
 	
-
-	
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
 
@@ -14,7 +12,6 @@ public class Test {
         	sum += sc.nextInt();
         }
         
-        System.out.println(sum);
-        
+        System.out.println(sum);        
     }
 }
