@@ -62,12 +62,14 @@ public class C14888 {
     			System.out.println("cand : " + cand);
     			System.out.println("operators : " + Arrays.toString(operators));
     			System.out.println("order : " + Arrays.toString(order));
+    			System.out.println("operators[cand] : " + operators[cand]);
     			if(operators[cand] >= 1) {
     				operators[cand]--;
     				order[k] = cand;
     				System.out.println("operators[cand] >= 1 ");
     				System.out.println("operators : " + Arrays.toString(operators));
         			System.out.println("order : " + Arrays.toString(order));
+        			System.out.println("rec_func(k+1); : " + k);
     				rec_func(k+1);
     				System.out.println("operators[cand]++; ");
     				System.out.println("k : " + k);
