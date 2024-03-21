@@ -38,14 +38,24 @@ public class C9663 {
 	
 	static void rec_func(int row) {
 		if (row == N + 1) {
-			if (validity_check()) {
+			System.out.println("row == N + 1 : " + row);
+			System.out.println("ans : " + ans);
+			if (validity_check()) {				
 				ans++;
+				System.out.println("ans++ : " + ans);
 			}
 		} else {
+			System.out.println("row : " + row);
 			for (int c =1; c<=N;c++) {
-				col[row] = c;
+				System.out.println("c : " + c);
+				col[row] = c; 
+				System.out.println("col[row] : " + col[row]);
+				System.out.println("rec_func(row+1)전 : " + row);
 				rec_func(row+1);
+				System.out.println("rec_func(row+1)후 : " + row);
+				System.out.println("col[row] : " + col[row]);
 				col[row] = 0;
+				
 			}
 		}
 		
