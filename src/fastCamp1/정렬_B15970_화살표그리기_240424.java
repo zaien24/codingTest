@@ -33,6 +33,18 @@ public class 정렬_B15970_화살표그리기_240424 {
     	}
     }
     
+    static int toLeft(int color, int idx) {
+    	if (idx == 0) 
+    		return Integer.MAX_VALUE;
+    	return a[color].get(idx) - a[color].get(idx - 1);
+    }
+    
+    static int toRight(int color, int idx) {
+    	if (idx + 1 == a[color].size()) {
+    		return Integer.MAX_VALUE;
+    	}
+    	return a[color].get(idx + 1) - a[color].get(idx);
+    }
     
     static void pro() {
     	for (int color = 1; color <= N; color++) 
