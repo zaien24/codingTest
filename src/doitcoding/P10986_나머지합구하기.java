@@ -33,11 +33,15 @@ public class P10986_나머지합구하기 {
 		
 		for (int i = 0; i < M; i++) {
 			if (C[i] > 1) {
+				System.out.println("answer전 : " +answer);
+				System.out.println(C[i]);
 				answer = answer + (C[i] * (C[i] -1) /2);
+				System.out.println("answer후 : " + answer );
+				
 			}
 		}
 		
 		System.out.println(answer);
-	}
+ 	}
 
 }
