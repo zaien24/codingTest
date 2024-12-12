@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class P11724_연결요소의개수 {
+public class P11724_연결요소의개수2 {
 
 	//방문 기록 저장 배열
 	static boolean visited[];

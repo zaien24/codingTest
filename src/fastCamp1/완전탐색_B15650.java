@@ -9,20 +9,24 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class 완전탐색_B15650 {
-
-
 	static StringBuilder sb = new StringBuilder();
 	
 	static int N, M;
 	static int[] selected, used;
 	
 	
-	private static void input() {
-		FastReader scan = new FastReader();	
-		N = scan.nextInt();
-		M = scan.nextInt();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());		
+		
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		
 		selected = new int[M + 1];
 		used = new int[N + 1];
+		
+		rec_func(1);
+		System.out.println(sb);
 	}
 	
 	private static void rec_func(int k) {		
@@ -39,60 +43,7 @@ public class 완전탐색_B15650 {
 				selected[k] = 0;								
 			}				
 		}
-	}
-	
-	public static void main(String[] args) {
-		input();
-		
-		rec_func(1);		
-		System.out.println(sb);
-	}
-
-	// 입출력 클래스 
-	static class FastReader {
-		BufferedReader br;
-		StringTokenizer st;
-		
-		public FastReader() {
-			br = new BufferedReader(new InputStreamReader(System.in));
-		}
-		
-		public FastReader(String s) throws FileNotFoundException {
-			br = new BufferedReader(new FileReader(new File(s)));
-		}
-		
-		String next() {
-			while (st == null || !st.hasMoreElements()) {
-				try {
-					st = new StringTokenizer(br.readLine());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			return st.nextToken();
-		}
-		
-		int nextInt() {
-            return Integer.parseInt(next());
-        }
-
-        long nextLong() {
-            return Long.parseLong(next());
-        }
-
-        double nextDouble() {
-            return Double.parseDouble(next());
-        }
-        
-        String nextLine() {
-        	String str = "";
-        	try {
-        		str = br.readLine();
-        	} catch (IOException e) {
-        		e.printStackTrace();
-        	}
-        	return str;
-        }
+		//저장
 	}
 }
 

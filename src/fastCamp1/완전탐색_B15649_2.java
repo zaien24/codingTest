@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class 완전탐색_B15649 {
+public class 완전탐색_B15649_2 {
 	static StringBuilder sb = new StringBuilder();
 	
 	static int N, M;
@@ -35,16 +35,16 @@ public class 완전탐색_B15649 {
 			sb.append("\n");
 		} else {
 			for (int cand=1;cand<=N;cand++) {
-				if (used[cand] == 1) {
-					continue;
-					
+				boolean isUsed = false;
+				for (int i = 1; i < k; i++) {
+					if (cand == selected[i])
+						isUsed = true;
 				}
-				selected[k] = cand;
-				used[cand] = 1;
-									
-				rec_func(k+1);
-				selected[k] = 0;
-				used[cand] = 0;								
+				if (!isUsed) {
+					selected[k] = cand;
+					rec_func(k+1);
+					selected[k] = 0;
+				}							
 			}				
 		}
 		//저장

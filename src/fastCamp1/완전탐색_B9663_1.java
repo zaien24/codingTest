@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class 완전탐색_B9663 {
+public class 완전탐색_B9663_1 {
     static StringBuilder sb = new StringBuilder();
     
     static int N, ans;
@@ -42,24 +42,15 @@ public class 완전탐색_B9663 {
 
 	private static void rec_func(int row) {
     	if (row == N + 1) {
-			ans++;
+    		if (validity_check()) {
+    			ans++;	
+    		}
+			
     	} else {
     		for (int c = 1; c <= N; c++) {
-    			boolean possiable = true;
-    			// valid check (row, c)
-    			for (int i=1;i<=row-1;i++) {
-    				// (i, col[i])
-    				if (attackable(row, c, i, col[i])) {
-    					possiable = false;
-    					break;
-    				}
-    			}
-    			if (possiable) {
-    				col[row] = c;
-        			rec_func(row + 1);
-        			col[row] = 0;
-    			}
-    			
+				col[row] = c;
+    			rec_func(row + 1);
+    			col[row] = 0;    			
     		}
     	}
 		
@@ -74,7 +65,6 @@ public class 완전탐색_B9663 {
 		N = Integer.parseInt(st.nextToken());		
     	col = new int[N + 1];
     	
-		// 1번째 원소부터 M 번째 원소를 조건에 맞게 고르는 모든 방법을 탐색해줘 
 		rec_func(1);
 		System.out.println(ans);
 	}
