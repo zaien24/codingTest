@@ -17,7 +17,7 @@ public class 정렬_B15970_화살표그리기_241212 {
     
     static int toLeft(int color, int idx) {
     	if (idx == 0) {
-    		return Integer.MAX_VALUE;
+    		return Integer.MAX_VALUE;			
     	}
     	return a[color].get(idx) - a[color].get(idx - 1);
     }
@@ -34,6 +34,7 @@ public class 정렬_B15970_화살표그리기_241212 {
         StringTokenizer st = new StringTokenizer(br.readLine());
         
     	N = Integer.parseInt(st.nextToken());
+    	
     	a = new ArrayList[N+1];
     	for (int color = 1; color <= N; color++) {
     		a[color] = new ArrayList<Integer>();
