@@ -61,7 +61,6 @@ public class 이분탐색_B7795_241213 {
 	    	for (int i = 1; i <= N; i++) {
 	    		// A[i]를 선택했을 때, B 에서는 A[]보다 작은 게 몇 개나 있는지 count하기 
 	    		ans += lower_bound(B, 1, M, A[i]);
-	    		
 	    	}
 	    	System.out.println(ans);
 		}
