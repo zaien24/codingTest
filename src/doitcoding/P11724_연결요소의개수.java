@@ -43,7 +43,7 @@ public class P11724_연결요소의개수 {
 			}
 		}
 		System.out.println("count : " + count);
- ㅠ파햐8ㄹㅍ ㅠ.	}
+	}
 
 	private static void DFS(int v) {
 		if (visited[v]) { // 현재 노드가 방문노드 이면 
