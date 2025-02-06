@@ -9,7 +9,7 @@ public class 완전탐색_B15649_2 {
 	static StringBuilder sb = new StringBuilder();
 	
 	static int N, M;
-	static int[] selected, used;
+	static int[] selected;
 	
 	
 	public static void main(String[] args) throws IOException {
@@ -20,7 +20,6 @@ public class 완전탐색_B15649_2 {
 		M = Integer.parseInt(st.nextToken());
 		
 		selected = new int[M + 1];
-		used = new int[N + 1];
 		
 		rec_func(1);
 		System.out.println(sb);

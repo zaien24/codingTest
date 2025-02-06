@@ -11,64 +11,60 @@ import java.util.StringTokenizer;
 public class tree_B1068_트리 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
-	
+
     static int n, root, erased;
     static ArrayList<Integer>[] child;
     static int[] leaf;
-    
+
     static void input() {
-    	n = scan.nextInt();
-    	child = new ArrayList[n];
-    	leaf = new int[n];
-    	for (int i = 0; i < n; i++) {
-    		child[i] = new ArrayList<>();
-    	}
-    	for (int i = 0; i < n; i++) {
-    		int par = scan.nextInt();
-    		if (par == -1) {
-    			root = i;
-    			continue;
-    		}
-    		child[par].add(i);
-    	}
-    	erased = scan.nextInt();
+        n = scan.nextInt();
+        child = new ArrayList[n];
+        leaf = new int[n];
+        for (int i = 0; i < n; i++) child[i] = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int par = scan.nextInt();
+            if (par == -1){
+                root = i;
+                continue;
+            }
+            child[par].add(i);
+        }
+        erased = scan.nextInt();
     }
-    
-    static void dfs(int x, int par) {
-    	if (child[x].isEmpty()) {
-    		leaf[x]++;
-    	}
-    	
-    	for (int y : child[x]) {
-    		if (y == par) {
-    			continue;
-    		}
-    	}
-    	
+
+    // dfs(x, par) := 정점 x 의 부모가 par 였고, Subtree(x) 의 leaf 개수를 세주는 함수
+    static void dfs(int x) {
+        if (child[x].isEmpty())
+            leaf[x]++;
+        for (int y : child[x]) {
+            dfs(y);
+            leaf[x] += leaf[y];
+        }
     }
-    
+
     static void pro() {
-    	for (int i = 0; i < n; i++) {
-    		if (child[i].contains(erased)) {
-    			child[i].remove(child[i].indexOf(erased));
-    		}
-    	}
-    	
-    	if (root != erased) {
-    		dfs(root, -1);
-    	}
-    	
-    	System.out.println(leaf[root]);
+        // erased와 그의 부모 사이의 연결을 끊어주기
+        for (int i=0;i<n;i++){
+            if (child[i].contains(erased)){
+            	System.out.println(child[i].indexOf(erased));
+                child[i].remove(child[i].indexOf(erased));
+            }
+        }
+        
+        // erased 가 root 인 예외 처리하기
+        if (root != erased) dfs(root);
+        
+        // 정답 출력하기
+        System.out.println(leaf[root]);
     }
-    
-    
+
     public static void main(String[] args) {
-    	input();
-    	pro();
-    	    	
+        input();
+        pro();
     }
-   
-	static class FastReader {
+
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 

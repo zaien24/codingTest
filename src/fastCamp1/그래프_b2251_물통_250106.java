@@ -16,6 +16,27 @@ public class 그래프_b2251_물통_250106 {
     static boolean[] possible;
     static boolean[][][] visit;
     
+    public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+    	    	   
+        Limit = new int[3];
+    	for (int i = 0; i < 3; i++) {
+    		Limit[i] = Integer.parseInt(st.nextToken());
+    		
+    	}
+    	visit = new boolean[205][205][205];
+    	possible = new boolean[205];
+    	
+    	bfs(0, 0, Limit[2]);
+    	for (int i = 0; i <= 200; i++) {
+    		if (possible[i]) {
+    			sb.append(i).append(' ');
+    		}    		
+    	}
+    	System.out.println(sb);
+    }
+    
     static void bfs(int x1, int x2, int x3) {
     	Queue<State> Q = new LinkedList<>();
     	visit[x1][x2][x3] = true;
@@ -38,27 +59,6 @@ public class 그래프_b2251_물통_250106 {
                 }
             }
         }
-    }
-    
-    public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-    	    	   
-        Limit = new int[3];
-    	for (int i = 0; i < 3; i++) {
-    		Limit[i] = Integer.parseInt(st.nextToken());
-    		
-    	}
-    	visit = new boolean[205][205][205];
-    	possible = new boolean[205];
-    	
-    	bfs(0, 0, Limit[2]);
-    	for (int i = 0; i <= 200; i++) {
-    		if (possible[i]) {
-    			sb.append(i).append(' ');
-    		}    		
-    	}
-    	System.out.println(sb);
     }
     
     static class State {

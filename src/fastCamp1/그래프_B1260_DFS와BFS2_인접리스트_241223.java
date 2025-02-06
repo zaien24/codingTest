@@ -6,58 +6,82 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class tree_B11725_트리의부모찾기 {
+public class 그래프_B1260_DFS와BFS2_인접리스트_241223 {
 	static FastReader scan = new FastReader();
     static StringBuilder sb = new StringBuilder();
 
-    static int n;
+    static int N, M, V;
     static ArrayList<Integer>[] adj;
-    static int[] parent;
-
+    static boolean[] visit;
+    
     static void input() {
-        n = scan.nextInt();
-        adj = new ArrayList[n + 1];
-        parent = new int[n + 1];
-        for (int i = 1; i <= n; i++) adj[i] = new ArrayList<>();
-
-        // 인접 리스트 구성하기
-        for (int i = 1; i < n; i++) {
-            int x = scan.nextInt(), y = scan.nextInt();
-            adj[x].add(y);
-            adj[y].add(x);
-        }
+    	N = scan.nextInt();
+    	M = scan.nextInt();
+    	V = scan.nextInt();
+    	adj = new ArrayList[N+1];
+    	for (int i = 1; i <= N; i++)
+    		adj[i] = new ArrayList<>();
+    	for (int i = 0; i < M; i++) {
+    		int x = scan.nextInt();
+    		int y = scan.nextInt();
+    		adj[x].add(y);
+    		adj[y].add(x);
+    	}
+    	for (int i = 1; i <= N; i++)
+    		Collections.sort(adj[i]);
     }
-
-    // dfs(x, par) := 정점 x 의 부모가 par 였고, x의 children들을 찾아주는 함수
-    static void dfs(int x, int par) {
-        for (int y : adj[x]) {
-            if (y == par) continue;
-            parent[y] = x;
-            dfs(y, x);
-        }
+    
+    static void dfs(int x) {
+    	visit[x] = true;
+    	sb.append(x).append(' ');
+    	
+    	for ( int y : adj[x]) {
+    		if (visit[y]) continue;
+    		
+    		dfs(y);
+    	}
     }
-
+    
+    static void bfs(int start) {
+    	Queue<Integer> que = new LinkedList<>();
+    	
+    	que.add(start);
+    	visit[start] = true;
+    	
+    	while (!que.isEmpty()) {
+    		int x = que.poll();
+    		
+    		sb.append(x).append(' ');
+    		for (int y : adj[x]) {
+    			if (visit[y]) continue;
+    			
+    			que.add(y);
+    			visit[y] = true;
+    		}
+    	}
+    }
+    
     static void pro() {
-        // 1 번 정점이 ROOT 이므로, 여기서 시작해서 Tree의 구조를 파악하자.
-        dfs(1, -1);
-
-        // 정답 출력하기
-        for (int i = 2; i <= n; i++) {
-            sb.append(parent[i]).append('\n');
-        }
-        System.out.println(sb);
+    	visit = new boolean[N+1];
+    	dfs(V);
+    	sb.append('\n');
+    	//for (int i = 1; i <= N; i++) visit[i] = false;
+    	//bfs(V);
+    	System.out.println(sb);
     }
 
     public static void main(String[] args) {
         input();
         pro();
     }
-   
-	
 
-	static class FastReader {
+
+    static class FastReader {
         BufferedReader br;
         StringTokenizer st;
 
