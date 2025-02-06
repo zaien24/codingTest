@@ -7,10 +7,10 @@ public class Main {
 	static int[] score;
 
 	public static void proc() {
-		float result = 0;
+		double result = 0;
 
 		//최대값
-		int max = Math.MIN_VALUE;
+		int max = Integer.MIN_VALUE;
 		int sum = 0;
 
 		for (int i = 0; i < N; i++) {
@@ -20,22 +20,24 @@ public class Main {
 			sum += score[i];
 		}
 		
-		result = (sum / max * 100) / N;
+		result = (sum  * 100.0 / max) / N;
 		System.out.println(result);
 	}
 	
-	public static void input() {
+	public static void input() throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenzier(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		N = Integer.parseInt(st.nextToken());
+		score = new int[N+1];
+
+		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++) {
-			st = new StringTokenzier(br.readLine());
-			score[i] = st.nextToken();
+			score[i] = Integer.parseInt(st.nextToken());
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		input();
 		proc();
 	}
