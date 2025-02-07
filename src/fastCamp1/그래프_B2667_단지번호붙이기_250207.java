@@ -27,9 +27,9 @@ public class Main {
             dfs(nx, ny);
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokeninzer st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
         A = new String[N];
@@ -56,8 +56,9 @@ public class Main {
 
         Collections.sort(group);
         System.out.println(group.size());
-        for (int i = 0; i < group.size(); i++) {
-            System.out.println(group[i]);
+
+        for (int cnt : group) {
+            System.out.println(cnt);
         }
 
     }
