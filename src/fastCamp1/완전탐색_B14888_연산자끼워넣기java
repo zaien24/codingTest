@@ -1,45 +1,36 @@
 public class Main {
 	static StringBuilder sb = new StringBuilder();
-
-
+	
 	static int max, min, N;
-
 	static int[] nums;
 	static int[] operator, order;
 
-	static int max = Integer.MIN_VALUE;
-	static int min = Integer.MAX_VALUE:
-
-
 	public static int calculator() {
-		value = nums[1];
+		int value = nums[1];
 
-		for (int i = 1; i <= N; i++) {
-			if (order[i] == '1') {
-				value += nums[i];
+		for (int i = 1; i <= N-1; i++) {
+			if (order[i] == 1) {
+				value += nums[i+1];
 			} 
-			if (order[i] == '2') {
-				value -= nums[i];
+			if (order[i] == 2) {
+				value -= nums[i+1];
 			}
-			if (order[i] == '3') {
-				value *= nums[i];
+			if (order[i] == 3) {
+				value *= nums[i+1];
 			}
-			if (order[i] == '4') {
-				value *= nums[i];
+			if (order[i] == 4) {
+				value /= nums[i+1];
 			}
 		}
-
 		return value;
 	}
 
 	public static void rec_func(int k) {
-		if (k == N + 1) {
-
+		if (k == N) {
 			value = calculator();
-
 			max = Math.max(max, value);
 			min = Math.min(min, value);
-			sb.append(max).append('\n').append(min);
+			
 		} else {
 			for (int cand = 1; cand <= 4; cand++) {
 				if (operator[cand] > 0) {
@@ -73,8 +64,12 @@ public class Main {
 			operator[i] = Integer.parseInt(st.nextToken());
 		}
 
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+		
 		rec_func(1);
 
+		sb.append(max).append('\n').append(min);
 		System.out.println(sb.toString());
 	
 	}
