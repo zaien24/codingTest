@@ -1,0 +1,81 @@
+public class Main {
+	static StringBuilder sb = new StringBuilder();
+
+
+	static int max, min, N;
+
+	static int[] nums;
+	static int[] operator, order;
+
+	static int max = Integer.MIN_VALUE;
+	static int min = Integer.MAX_VALUE:
+
+
+	public static int calculator() {
+		value = nums[1];
+
+		for (int i = 1; i <= N; i++) {
+			if (order[i] == '1') {
+				value += nums[i];
+			} 
+			if (order[i] == '2') {
+				value -= nums[i];
+			}
+			if (order[i] == '3') {
+				value *= nums[i];
+			}
+			if (order[i] == '4') {
+				value *= nums[i];
+			}
+		}
+
+		return value;
+	}
+
+	public static void rec_func(int k) {
+		if (k == N + 1) {
+
+			value = calculator();
+
+			max = Math.max(max, value);
+			min = Math.min(min, value);
+			sb.append(max).append('\n').append(min);
+		} else {
+			for (int cand = 1; cand <= 4; cand++) {
+				if (operator[cand] > 0) {
+					operator[cand]--;
+					order[k] = cand;
+					rec_func(k+1);
+					operator[cand]++;
+					order[k] = 0;
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		N = Integer.parseInt(st.nextToken());
+
+		nums = new int[N+1];
+		operator = new int[5];
+		order = new int[N+1];
+
+		st = new StringTokenizer(br.readLine());
+		for (int i = 1; i <= N; i++) {
+			nums[i] = Integer.parseInt(st.nextToken());
+		}
+
+		st = new StringTokenizer(br.readLine());
+		for (int i = 1; i <= 4; i++) {
+			operator[i] = Integer.parseInt(st.nextToken());
+		}
+
+		rec_func(1);
+
+		System.out.println(sb.toString());
+	
+	}
+}
