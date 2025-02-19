@@ -18,7 +18,7 @@ public class Main {
             int ny = y + dir[k][1];
 
             if (nx < 0 || ny < 0 || nx >= N || ny >=  N) continue; 
-            if (visit[nx][ny] && A[nx].charAt(ny) == '0') continue;
+            if (visit[nx][ny] || A[nx].charAt(ny) == '0') continue;
             dfs(nx,ny);
         }        
     }
