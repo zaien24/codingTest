@@ -1,3 +1,5 @@
+package fastCamp1;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -5,7 +7,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Main {
+public class dijkstra_B1916_최소비용_디버깅_250215 {
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,9 +24,9 @@ public class Main {
 		for (int i=1;i<=N;i++) {
 			edges[i] = new ArrayList<Edge>();
 		}
-
-		st = new StringTokenizer(br.readLine());
+		
 		for (int i=1;i<=M;i++) {
+			st = new StringTokenizer(br.readLine());
 			int from = Integer.parseInt(st.nextToken());
 			int to = Integer.parseInt(st.nextToken());
 			int weight = Integer.parseInt(st.nextToken());
