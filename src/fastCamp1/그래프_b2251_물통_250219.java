@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class Main {
     static StringBuffer sb = new StringBuffer();
 
@@ -40,8 +43,8 @@ public class Main {
             limit[i] = Integer.parseInt(st.nextToken());
         }
 
-        possible = new int[201];
-        visit = new int[201][201][201];
+        possible = new boolean[201];
+        visit = new boolean[201][201][201];
 
         bfs(0,0,limit[2]);
 
@@ -64,15 +67,15 @@ public class Main {
             
         }
 
-        State move(int x1, int x2, int[] limit) {
-            int[] nX = new int[]{x1, x2, limit[2]};
+        State move(int from, int to, int[] limit) {
+            int[] nX = new int[]{X[0], X[1], X[2]};
 
             if (X[from] + X[to] <= limit[to]) {
                 nX[to] = nX[from] + nX[to];
                 nX[from] = 0;
             } else {
-                nX[to] = limit[to] - nX[to];
-                nX[from] = 
+                nX[from] -= limit[to] - nX[to];
+                nX[to] = limit[to]; 
             }
 
             return new State(nX);
