@@ -1,4 +1,5 @@
 package fastCamp1;
+package fastCamp1;
 
 import java.io.BufferedReader;
 import java.io.File;
