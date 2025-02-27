@@ -55,7 +55,7 @@ public class Main {
 
     }
 
-    public class State {
+    public static class State {
         int[] X;
 
         State(int[] _X) {

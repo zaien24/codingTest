@@ -7,7 +7,7 @@ public class Main {
     public static boolean attackable(int r1, int c1, int r2, int c2) {
         if (c1 == c2) return true;;
         if (r1 - c1 == r2 - c2) return true;
-        if (r2 + c2 == r2 + c2) return true;
+        if (r1 + c1 == r2 + c2) return true;
         return false; 
     } 
 
