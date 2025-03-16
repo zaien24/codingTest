@@ -1,0 +1,60 @@
+public class Solution {
+    public String solution(String s) {
+        StrinBuilder sb = new StringBuilder();
+        boolean toUpper = true;
+
+        for (char c : s.toCharArray()) {
+            if (!Character.isAlphabetic(c)) {
+                builder.append(c);
+                toUpper = treu;
+            } else {
+                if (toUpper) {
+                    sb.append(Character.toUpperCase(c));
+                } else {
+                    sb.append(Character.toLowerCase(c));
+                }
+                toUpper = !toUpper;
+            }
+        }
+
+        return sb.toString();
+    }
+}
+
+// 시간, 메모리 
+// 입력 : String 
+// 출력 : String 
+// 분석
+// 한개 이상 단어 , 하나 이상의 공백
+// 각 단어 짝수번째 대문자, 홀수번째 소문자 
+// 단어별로 짝/홀수 인덱스 판딘 
+// 첫번째 글자 0 번째 > 짝수 알파벳 
+// try hello world -> TrY HeLlO WoRlD
+
+
+UpperCase
+LowerCase
+% 2 == 0
+isAlphabetic();
+
+class Solution {
+    public String solution(String s) {
+        StringBuilder sb = new StringBuilder();
+        char[] ch = s.toCharArray();
+
+        for (int i = 1; i < ch.length.i++) {
+            if (Character.isAlphabetic(ch[i])) {
+                if (ch[i] % 2 == 0) {
+                    sb.append(Character.UpperCase());
+                } else {
+                    sb.append(Character.LowerCase());
+                }
+            } else {
+                sb.append(ch[i]);
+            }
+            }
+        }
+
+        return sb.toString();
+    }
+}
