@@ -2,6 +2,7 @@ class Solution {
 
     private List<String> split(String source, int length) {
         List<String> tokens = new ArrayList<>();
+        // source를 length만큼씩 잘라 tokens 리스트에 추가 
         for (int startIndex = 0; startIndex < source.length(); startIndex += length) {
             int endIndex = startIndex + length; 
             if (endInex > source.length()) {
