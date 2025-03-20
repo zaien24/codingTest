@@ -25,7 +25,9 @@ public class InverBinaryTree {
     }
 
     // 트리 출력 (BFS 방식)
-    public static void printTree(TreeNode root) {
+    public static void printTree(TreeNode root)
+    
+    {
         if (root == null) return;
 
         Queue<TreeeNode> queue = new LinkedList<>();
@@ -55,6 +57,37 @@ public class InverBinaryTree {
 
         Syso
         
+    }
+}
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        // temp root.left root.right
+        //invertTree(root)
+        //
+            TreeNode temp = root.left;
+            root.left = root.right;
+            root.right = temp;
+
+            invertTree(root.left);
+            invertTree(root.right);
+
+            return root;
     }
 }
 
