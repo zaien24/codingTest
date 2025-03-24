@@ -1,28 +1,31 @@
-public class FloodFill {
-    public static int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
-        int startColor = image[sr][sc];
-        if (startColor == newColor) return image;
-        
-        dfs(image, sr, sc, startColor, newColor);
-        return image;
+class Solution {
+    // 방향 배열 (하, 상, 우, 좌)
+static int[][] directions = {
+    {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+};
+
+public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+    // 무한 루프 
+    int startColor = image[sr][sc];
+    if (startColor == color) return image;
+
+    dfs(image, sr, sc, startColor, color);
+
+    return image;
+}
+
+public static void dfs (int[][] image, int r, int c, int startColor, int newColor) {
+    if (r < 0 || c < 0 || r >= image.length || c >= image[0].length) {
+        return;
     }
+    if (image[r][c] != startColor) return;
 
-    public static void main(String[] args) {
-        int[][] image = {
-            {1,1,1},
-            {1,1,0},
-            {1,0,1}
-        };
-        int sr = 1, sc = 1, newColor = 2;
-    
+    image[r][c] = newColor;
 
-        int[][] result = floodFill(image, sr, sc, newColor);
-
-        for (int[] row : result) {
-            for (int pixel : row) {
-                System.out.print(pixel + " ");
-            }
-            System.out.println();
-        }
+    for (int[] dir : directions) {
+        int newR = r + dir[0];
+        int newC = c + dir[1];
+        dfs(image, newR, newC, startColor, newColor);
     }
+}
 }
